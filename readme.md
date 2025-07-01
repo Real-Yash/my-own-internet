@@ -35,7 +35,7 @@ Welcome to the official documentation of how I built my \*\*custom top-level dom
 
 ---
 
-##  What You'll Build
+## 🎯 What You'll Build
 
 ![Custom TLD Setup Diagram](docs/images/custom-tld-setup.png)
 
@@ -66,6 +66,13 @@ http://nas.home       → Network storage
 http://router.home    → Router admin
 http://pi.home        → Raspberry Pi
 ```
+
+### 🖼️ Live Demo
+
+Here's what a custom `.yash` TLD looks like in action:
+
+![dev.yash in browser](docs/images/dev-yash.png)
+*Screenshot showing dev.yash loading successfully in browser*
 
 ---
 
