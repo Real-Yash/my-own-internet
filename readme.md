@@ -1,39 +1,38 @@
-# 🌐 Custom TLD Setup - Build Your Own Internet
+# 🌐 Custom TLD Setup - Build Your Own TLD
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Made with ❤️](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://github.com/username/custom-tld-setup)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+## About REPO
 
-## 🚀 Quick Start
+Welcome to the official documentation of how I built my `custom top-level domain` like `.yash` and used it to serve real content from Vercel and GitHub Pages using local DNS resolution at VPS and local network. This guide walks you through setting up your own alt-root DNS infrastructure and linking it with modern hosting.
 
-> 🔧 **Important**: Replace `192.168.1.100` with your actual server IP address throughout this guide!
+This repository provides a complete guide to setting up your own alt-root DNS infrastructure with custom TLDs. Whether you want `.dev`, `.home`, `.company`, or any custom domain, this guide will help you build your own internet. 
 
-### 🔍 Find Your Server IP Address
-
-```bash
-# Method 1: Using ip command (Linux)
-ip addr show | grep inet
-
-# Method 2: Using hostname command
-hostname -I
-
-# Method 3: Using ifconfig (if available)
-ifconfig | grep "inet "
-
-# Your output will look like: 192.168.1.X, 10.0.0.X, or 172.16.0.X
-```
-
-> 💡 **Note**: Use your **private IP** (192.168.x.x, 10.x.x.x, 172.16-31.x.x) for local network setup, or your **public IP** if setting up external access.
-
-### Method 1: Using dnsmasq (Recommended)
-
-> Create your own custom top-level domains like `.localnet`, `.yash`, or `.mycompany` and serve real content locally or across your private network!
-
-This repository provides a complete guide to setting up your own alt-root DNS infrastructure with custom TLDs. Whether you want `.dev`, `.home`, `.company`, or any custom domain, this guide will help you build your own internet. Alt-Root DNS Setup with `.localnet` TLD
-
-Welcome to the official documentation of how I built my \*\*custom top-level domain like \*\*`.localnet & .yash` and used it to serve real content (even from Vercel and GitHub Pages) using local DNS resolution. This guide walks you through setting up your own alt-root DNS infrastructure and linking it with modern hosting.
+So How to Create your own custom top-level domains like `.localnet`, `.yash`, or `.mycompany` and serve real content locally or across the network with VPS?
 
 ---
+## 📋 Prerequisites
+
+Before you begin, ensure you have:
+
+* 🐧 **Linux OS** (Ubuntu 20.04+, Arch, CentOS, etc.)
+* 🌐 **Internet access** (for package installs and DNS routing)
+* 🔧 **`sudo` privileges** (to install and configure services)
+* 📱 *(Optional)* **Other devices** on your network (to test local DNS resolution)
+* 🛠️ **Basic terminal knowledge** (copy-paste commands, edit config files)
+
+### ☁️ Additional (For VPS / Cloud Only)
+
+Only needed if you're hosting the setup on a remote server like AWS, Oracle Cloud, or DigitalOcean:
+
+* ☁️ **VPS or Cloud server** with public IP
+* 🔐 **SSH access** (via `.pem` or password)
+* 🌍 *(Optional)* **Custom domain** (e.g., `dns.yourdomain.com`)
+* 🔒 *(Optional)* **SSL certificates** (for HTTPS/secure DNS)
+* 🛡️ **Firewall/security group setup** (allow ports: 22, 53, 80/443)
+* 🧑‍💻 *(Optional)* **Hosting account** (like Vercel, Netlify) for domain mapping
+
 
 ## 🎯 What You'll Build
 
@@ -45,7 +44,6 @@ With this setup, you can:
 - ✅ Access local services via beautiful domains (`api.localnet`, `dashboard.company`)
 - ✅ Route traffic to Vercel, GitHub Pages, or local servers
 - ✅ Works across your entire network (mobile, desktop, IoT devices)
-- ✅ No internet dependency for local domains
 - ✅ Professional development environment
 
 ### Example Use Cases
@@ -74,27 +72,15 @@ Here's what a custom `.yash` TLD looks like in action:
 ![dev.yash in browser](docs/images/dev-yash.png)
 *Screenshot showing dev.yash loading successfully in browser*
 
----
 
-## 📋 Prerequisites
-
-Before you begin, ensure you have:
-
-- 🐧 **Linux machine** (Ubuntu 20.04+, Arch, CentOS, etc.)
-- 🌐 **Network access** (for initial setup and external routing)
-- 🔧 **sudo privileges** (for system configuration)
-- 📱 **Devices to test** (optional: Android/iOS for network-wide testing)
-
-### Optional Requirements
-- 🌍 **Public domain** (for external DNS like `dns.yourdomain.com`)
-- ☁️ **Vercel/Netlify account** (for mapping to hosted content)
-- 🔒 **SSL certificates** (for HTTPS support)
 
 ---
+
+
 
 ##  Quick Start
 
-### Method 1: Using dnsmasq (Recommended)
+### Using dnsmasq (Linux)
 
 1. **Install dnsmasq**
 
@@ -154,72 +140,38 @@ Before you begin, ensure you have:
    > sudo systemctl restart dnsmasq
    > ```
 
+
+### 🔍 How To Find Your Server IP Address
+
+
+```bash
+# Method 1: Using ip command (Linux)
+ip addr show | grep inet
+
+# Method 2: Using hostname command
+hostname -I
+
+# Method 3: Using ifconfig (if available)
+ifconfig | grep "inet "
+
+# Your output will look like: 192.168.1.X, 10.0.0.X, or 172.16.0.X
+```
+
+
+> 💡 **Note**: Use your **private IP** (192.168.x.x, 10.x.x.x, 172.16-31.x.x) for local network setup, And your **public IP** for setting up external access via VPS.
+
+
+
+
 4. **Test your setup**
 
    ```bash
-   # Test DNS resolution (replace YOUR_SERVER_IP with your actual server IP)
-   nslookup api.localnet 127.0.0.1
-   dig @127.0.0.1 web.localnet
+    # Test DNS resolution (replace 127.0.0.1 with your DNS server IP if remote)
+    nslookup api.localnet 127.0.0.1
+    dig @127.0.0.1 web.localnet
    
    # Should return your configured IP (e.g., 192.168.1.100)
    ```
-
-### Method 2: Using CoreDNS (Advanced/Optional)
-
-> ⚠️ **Note**: CoreDNS setup is more complex and recommended for advanced users only. dnsmasq is sufficient for most use cases.
-
-<details>
-<summary>Click to expand CoreDNS setup</summary>
-
-1. **Download CoreDNS**
-   ```bash
-   wget https://github.com/coredns/coredns/releases/latest/download/coredns_linux_amd64.tgz
-   tar -xzf coredns_linux_amd64.tgz
-   sudo mv coredns /usr/local/bin/
-   ```
-
-2. **Create Corefile**
-   ```bash
-   sudo mkdir -p /etc/coredns
-   sudo tee /etc/coredns/Corefile << 'EOF'
-   localnet {
-       hosts {
-           YOUR_SERVER_IP api.localnet
-           YOUR_SERVER_IP web.localnet
-           fallthrough
-       }
-   }
-   
-   . {
-       forward . 8.8.8.8 1.1.1.1
-   }
-   EOF
-   ```
-
-   > 🔧 **Replace YOUR_SERVER_IP** with your actual server IP (e.g., 192.168.1.100)
-
-3. **Create systemd service**
-   ```bash
-   sudo tee /etc/systemd/system/coredns.service << 'EOF'
-   [Unit]
-   Description=CoreDNS
-   After=network.target
-   
-   [Service]
-   ExecStart=/usr/local/bin/coredns -conf /etc/coredns/Corefile
-   Restart=always
-   
-   [Install]
-   WantedBy=multi-user.target
-   EOF
-   
-   sudo systemctl enable coredns
-   sudo systemctl start coredns
-   ```
-
-</details>
-
----
 
 ## 🌍 Network-Wide Setup
 
@@ -327,6 +279,9 @@ address=/app.localnet/76.76.21.21  # Vercel's IP
 
 # Or use Vercel's CLI to add custom domain
 vercel domains add app.localnet
+
+# then add your coutom domain into vercel project
+it will show config error but it will work
 ```
 
 ### GitHub Pages Integration
@@ -335,6 +290,9 @@ vercel domains add app.localnet
 # GitHub Pages IP ranges
 address=/docs.localnet/185.199.108.153
 address=/blog.localnet/185.199.109.153
+
+# then add your coutom domain into github pages
+it will show config error but it will work
 ```
 
 ### Netlify Integration
@@ -342,6 +300,9 @@ address=/blog.localnet/185.199.109.153
 ```bash
 # Point to Netlify
 address=/portfolio.localnet/75.2.60.5
+
+# then add your coutom domain into Nwtlify project
+it will show config error but it will work
 ```
 
 ### Self-Hosted Services
@@ -353,45 +314,6 @@ address=/jenkins.localnet/192.168.1.201:8080
 address=/nextcloud.localnet/192.168.1.202
 ```
 
----
-
-##  HTTPS Support
-
-### Generate SSL Certificates
-
-```bash
-# For local development (self-signed)
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-  -keyout /etc/ssl/private/localnet.key \
-  -out /etc/ssl/certs/localnet.crt \
-  -subj "/C=US/ST=State/L=City/O=Organization/CN=*.localnet"
-
-# For public domains (Let's Encrypt)
-sudo certbot certonly --standalone -d dns.yourdomain.com
-```
-
-### Configure NGINX with SSL
-
-```nginx
-server {
-    listen 443 ssl;
-    server_name *.localnet;
-    
-    ssl_certificate /etc/ssl/certs/localnet.crt;
-    ssl_certificate_key /etc/ssl/private/localnet.key;
-    
-    root /var/www/localnet;
-    index index.html;
-}
-
-server {
-    listen 80;
-    server_name *.localnet;
-    return 301 https://$server_name$request_uri;
-}
-```
-
----
 
 ## 🐛 Troubleshooting
 
@@ -443,7 +365,46 @@ sudo systemctl disable systemd-resolved
 
 ---
 
+
 ## 📚 Advanced Configuration
+
+##  HTTPS Support
+
+### Generate SSL Certificates
+
+```bash
+# For local development (self-signed)
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout /etc/ssl/private/localnet.key \
+  -out /etc/ssl/certs/localnet.crt \
+  -subj "/C=US/ST=State/L=City/O=Organization/CN=*.localnet"
+
+# For public domains (Let's Encrypt)
+sudo certbot certonly --standalone -d dns.yourdomain.com
+```
+
+### Configure NGINX with SSL
+
+```nginx
+server {
+    listen 443 ssl;
+    server_name *.localnet;
+    
+    ssl_certificate /etc/ssl/certs/localnet.crt;
+    ssl_certificate_key /etc/ssl/private/localnet.key;
+    
+    root /var/www/localnet;
+    index index.html;
+}
+
+server {
+    listen 80;
+    server_name *.localnet;
+    return 301 https://$server_name$request_uri;
+}
+```
+
+
 
 ### Wildcard Domains
 ```ini
